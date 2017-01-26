@@ -6,6 +6,7 @@
 package com.main;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 import java.util.Spliterator;
 import java.util.StringJoiner;
@@ -32,6 +33,11 @@ public class Main {
         
         Consumer<String> show = s -> System.err.println(s);
         
+        List<String> names = Arrays.asList(new String[]{"ashraf", "umair", "hassan", "rasheed"});
+        
+        if (names.stream().anyMatch(s -> s.startsWith("um"))) {
+            System.out.println("Umair is present");
+        }
         
         Spliterator.OfInt spliterator = Arrays.spliterator(new int[] {1,2,3,4,5,6,7,8,9,10});
         
