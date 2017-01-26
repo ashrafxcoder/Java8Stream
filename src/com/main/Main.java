@@ -5,7 +5,9 @@
  */
 package com.main;
 
+import java.util.Arrays;
 import java.util.Random;
+import java.util.Spliterator;
 import java.util.StringJoiner;
 import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
@@ -29,6 +31,9 @@ public class Main {
         Function<String, String> upCase = name -> name.toUpperCase();
         
         Consumer<String> show = s -> System.err.println(s);
+        
+        
+        Spliterator.OfInt spliterator = Arrays.spliterator(new int[] {1,2,3,4,5,6,7,8,9,10});
         
         
         
