@@ -6,6 +6,7 @@
 package com.main;
 
 import java.util.Random;
+import java.util.StringJoiner;
 import java.util.function.BinaryOperator;
 
 /**
@@ -21,6 +22,15 @@ public class Main {
         BinaryOperator<Integer> result = (x,y) -> x+y;
         
         new Random().ints().limit(10).forEach(i -> System.err.println(i));
+        
+        
+        StringJoiner joiner = new StringJoiner(",", "[", "]");
+        joiner.add("kotlin");
+        joiner.add("phantom");
+        joiner.add("java");
+        joiner.add("groovy");
+        joiner.add("scala");
+        System.out.println(joiner.toString());
         
         
         System.out.println(result.apply(2, 3));
