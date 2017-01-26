@@ -8,6 +8,7 @@ package com.main;
 import java.util.Random;
 import java.util.StringJoiner;
 import java.util.function.BinaryOperator;
+import java.util.function.Consumer;
 import java.util.function.Function;
 
 /**
@@ -27,7 +28,13 @@ public class Main {
         
         Function<String, String> upCase = name -> name.toUpperCase();
         
+        Consumer<String> show = s -> System.err.println(s);
+        
+        
+        
         System.out.println(upCase.apply("ashraf"));
+        
+        show.accept("hi");
         
         
         
