@@ -8,6 +8,7 @@ package com.main;
 import java.util.Random;
 import java.util.StringJoiner;
 import java.util.function.BinaryOperator;
+import java.util.function.Function;
 
 /**
  *
@@ -22,6 +23,14 @@ public class Main {
         BinaryOperator<Integer> result = (x,y) -> x+y;
         
         new Random().ints().limit(10).forEach(i -> System.err.println(i));
+        
+        
+        Function<String, String> upCase = name -> name.toUpperCase();
+        
+        System.out.println(upCase.apply("ashraf"));
+        
+        
+        
         
         
         StringJoiner joiner = new StringJoiner(",", "[", "]");
