@@ -5,6 +5,7 @@
  */
 package com.main;
 
+import java.util.Random;
 import java.util.function.BinaryOperator;
 
 /**
@@ -18,6 +19,9 @@ public class Main {
      */
     public static void main(String[] args) {
         BinaryOperator<Integer> result = (x,y) -> x+y;
+        
+        new Random().ints().limit(10).forEach(i -> System.err.println(i));
+        
         
         System.out.println(result.apply(2, 3));
     }
