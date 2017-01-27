@@ -5,6 +5,8 @@
  */
 package com.main;
 
+import java.io.File;
+import java.io.FileFilter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -62,5 +64,10 @@ public class Main {
         
         System.out.println(result.apply(2, 3));
     }
+
     
+    public static void showDirs(File dir){
+        FileFilter filter = (p) -> p.getName().endsWith(".java");
+        Arrays.asList(dir.listFiles()).forEach(System.out::println);
+    }
 }
