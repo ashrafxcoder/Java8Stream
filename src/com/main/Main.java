@@ -5,9 +5,14 @@
  */
 package com.main;
 
+import java.awt.Toolkit;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FilenameFilter;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
@@ -17,6 +22,7 @@ import java.util.StringJoiner;
 import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Function;
+import java.util.stream.Stream;
 
 /**
  *
@@ -27,15 +33,50 @@ public class Main {
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(String[] args) throws Exception{
         
         Comparator<Integer> comp = Integer::compare;
         
+        
+        SecurityManager manager;
+       
+        
+        
+        walkDirs();
+        
+        
+        //StreamCollectors collectors = new StreamCollectors();
+        //collectors.collectPerson();
+        
+        //Streams test = new Streams();
+        //test.flatMap();
+        
+        
         //showDirs(new File("F:\\Java"));
-        consumerTests();
+        //consumerTests();
         
     }
 
+    
+    
+    public static void listDirs() throws Exception {
+        Path path = Paths.get("G:", "University");
+        try(Stream<Path> stream = Files.list(path)){
+            stream
+                  .filter(p -> p.toFile().getName().endsWith(".pdf"))
+                  .forEach(System.out::println);
+        }
+    }
+    public static void walkDirs() throws Exception {
+        Path path = Paths.get("G:", "University");
+        try(Stream<Path> stream = Files.walk(path)){
+            stream
+                  //.filter(p -> p.toFile().isDirectory())
+                  .forEach(System.out::println);
+        }
+    }
+    
+    
     private static void streamsIntro() {
         BinaryOperator<Integer> result = (x, y) -> x + y;
 
@@ -75,16 +116,19 @@ public class Main {
         Arrays.asList(dir.list())
                 .forEach(System.out::println);
     }
-    
-    
-    
+     
     public static void consumerTests(){
-        Consumer<Integer> print = System.out::println;
-        Consumer<Integer> doubleIt = i -> i *= 2;
-        
         
         List<Integer> ints = Arrays.asList(new Integer[]{1,2,3,4,5,6,7,8,9,10});
+        List<Integer> result = new ArrayList<>();
         
-        ints.forEach(print.andThen(doubleIt).andThen(print));
+        Consumer<Integer> print = System.out::println;
+        Consumer<Integer> add = result::add;
+        Consumer<Integer> addAndShow = add.andThen(print);
+        
+        
+        
+        ints.forEach(addAndShow);
+        result.forEach(print);
     }
 }
