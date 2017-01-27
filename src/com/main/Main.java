@@ -26,6 +26,10 @@ public class Main {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        showDirs(new File("F:\\Java"));
+    }
+
+    private static void streamsIntro() {
         BinaryOperator<Integer> result = (x,y) -> x+y;
         
         new Random().ints().limit(10).forEach(i -> System.err.println(i));
@@ -68,6 +72,6 @@ public class Main {
     
     public static void showDirs(File dir){
         FileFilter filter = (p) -> p.getName().endsWith(".java");
-        Arrays.asList(dir.listFiles()).forEach(System.out::println);
+        Arrays.asList(dir.listFiles(filter)).forEach(System.out::println);
     }
 }
