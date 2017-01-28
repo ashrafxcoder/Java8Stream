@@ -5,7 +5,8 @@
  */
 package com.main;
 
-import java.awt.Toolkit;
+import controller.CityJpaController;
+import db.City;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FilenameFilter;
@@ -23,6 +24,9 @@ import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.PersistenceUnit;
 
 /**
  *
@@ -33,6 +37,9 @@ public class Main {
     /**
      * @param args the command line arguments
      */
+    
+    private static EntityManagerFactory emf 
+                = Persistence.createEntityManagerFactory("WorldPU"); 
     public static void main(String[] args) throws Exception{
         
         Comparator<Integer> comp = Integer::compare;
@@ -41,8 +48,14 @@ public class Main {
         SecurityManager manager;
        
         
+        CityJpaController city = new CityJpaController(emf);
         
-        walkDirs();
+        List<City> cities = city.findCityEntities();
+        
+        cities.forEach(c -> System.out.println(c.getName()));
+        
+        
+        //walkDirs();
         
         
         //StreamCollectors collectors = new StreamCollectors();
