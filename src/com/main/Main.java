@@ -6,7 +6,9 @@
 package com.main;
 
 import controller.CityJpaController;
+import controller.CountryJpaController;
 import db.City;
+import db.Country;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FilenameFilter;
@@ -24,6 +26,7 @@ import java.util.function.BinaryOperator;
 import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Stream;
+import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.PersistenceUnit;
@@ -50,21 +53,23 @@ public class Main {
         
         CityJpaController city = new CityJpaController(emf);
         
-        List<City> cities = city.findCityEntities();
+        //List<City> cities = city.findCityEntities();
+       
+        //cities.forEach(c -> System.out.println(c.getName()));
         
-        cities.forEach(c -> System.out.println(c.getName()));
+        
+        CountryJpaController countries = new CountryJpaController(emf);
+        List<Country> CountryEntities = countries.findCountryEntities();
+        
+        CountryEntities.forEach(c -> System.out.println(c.getCode()));
+        System.out.println(CountryEntities.stream().count());
         
         
         //walkDirs();
-        
-        
         //StreamCollectors collectors = new StreamCollectors();
         //collectors.collectPerson();
-        
         //Streams test = new Streams();
         //test.flatMap();
-        
-        
         //showDirs(new File("F:\\Java"));
         //consumerTests();
         
