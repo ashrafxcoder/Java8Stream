@@ -15,6 +15,7 @@ import java.io.FilenameFilter;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -46,10 +47,14 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
 
+        RollADie();
+    }
+
+    public static void misc() {
         Comparator<Integer> comp = Integer::compare;
-
+        
         SecurityManager manager;
-
+        
         CityJpaController city = new CityJpaController(emf);
 
         List<City> cities = city.findCityEntities();
@@ -57,7 +62,7 @@ public class Main {
         long worldPopulation = cities.stream()
                 .mapToLong(City::getPopulation)
                 .sum();
-                                    //.reduce(0, (x,y) -> x+y);
+        //.reduce(0, (x,y) -> x+y);
 
         System.out.println(worldPopulation);
 
@@ -66,9 +71,9 @@ public class Main {
                 .stream()
                 .filter(c -> c.getCountryCode().contains("PAK"))
                 .collect(Collectors.groupingBy(
-                                City::getCountryCode,
-                                TreeMap::new, Collectors.toList()
-                        ));
+                        City::getCountryCode,
+                        TreeMap::new, Collectors.toList()
+                ));
         map.forEach((s, l) -> {
             System.out.printf("%s has %d citie(s)%n", s, l.size());
             l.forEach(c -> System.out.println(c.getName() + " " + c.getDistrict()));
@@ -179,5 +184,18 @@ public class Main {
                     .forEach(word -> System.out.printf("%13s: %d%n", word.getKey(), word.getValue()));
                 });
 
+    }
+    
+    
+    public static void RollADie(){
+        SecureRandom random = new SecureRandom();
+        System.out.printf("%-6s%s%n", "Face", "Frequency");
+        random.ints(6_000_000, 1,7)
+              .boxed()
+              .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+              .forEach((face, frequency) -> 
+              {
+                  System.out.printf("%-6d%d%n", face, frequency);
+              });
     }
 }
