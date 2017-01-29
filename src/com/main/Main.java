@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 import java.util.Spliterator;
 import java.util.StringJoiner;
@@ -31,6 +30,7 @@ import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 import static java.util.stream.Collectors.toList;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -48,19 +48,40 @@ public class Main {
             = Persistence.createEntityManagerFactory("WorldPU");
 
     public static void main(String[] args) throws Exception {
-        highestPopulation();
+        //pythagoreanTriplet();
+        Stream.iterate(0, n -> n + 2)
+        .limit(10)
+        .forEach(System.out::println);
+    }
+
+    public static void pythagoreanTriplet() {
+        Stream<int[]> pythagoreanTriples
+                = IntStream.rangeClosed(1, 1_000_000).boxed()
+                .flatMap(a -> IntStream.rangeClosed(a, 1_000_000)
+                        .filter(b -> Math.sqrt(a * a + b * b) % 1 == 0)
+                        .mapToObj(b
+                                -> new int[]{a, b, (int) Math.sqrt(a * a + b * b)})
+                );
+
+        pythagoreanTriples.forEach(t
+                -> System.out.println(t[0] + ", " + t[1] + ", " + t[2]));
     }
 
     public static void highestPopulation() {
+
         CountryJpaController countries = new CountryJpaController(emf);
         //Optional<Integer> max = 
-                countries.findCountryEntities().stream()
-                .map(Country::getPopulation)
-                .max(Comparator.naturalOrder())
+        countries.findCountryEntities().stream()
+                .reduce((a, b) -> a.getPopulation() > b.getPopulation() ? a : b)
                 .ifPresent(System.out::println);
+                //.forEach(c -> System.out.println(c.getName()));
+        //.map(Country::getPopulation)
+        //.reduce(Integer::max)
+        //.max(Comparator.naturalOrder())
+        //.ifPresent(System.out::println);
+
     }
-    
-    
+
     public static void misc() {
         Comparator<Integer> comp = Integer::compare;
 
@@ -209,11 +230,12 @@ public class Main {
     }
 
     /**
-    *Given a list [1, 2, 3] and a list [3, 4] you should return 
-    *    [(1, 3), (1, 4), (2, 3), (2, 4), (3, 3), (3, 4)]
-    **/
+     * Given a list [1, 2, 3] and a list [3, 4] you should return [(1, 3), (1,
+     * 4), (2, 3), (2, 4), (3, 3), (3, 4)]
+    *
+     */
     public static void makePairs() {
-        
+
         List<Integer> numbers1 = Arrays.asList(1, 2, 3);
         List<Integer> numbers2 = Arrays.asList(3, 4);
         List<int[]> pairs
