@@ -20,6 +20,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 import java.util.Spliterator;
 import java.util.StringJoiner;
@@ -47,10 +48,17 @@ public class Main {
             = Persistence.createEntityManagerFactory("WorldPU");
 
     public static void main(String[] args) throws Exception {
-
-        RollADie();
+        highestPopulation();
     }
 
+    public static void highestPopulation() {
+        CountryJpaController countries = new CountryJpaController(emf);
+        //Optional<Integer> max = 
+                countries.findCountryEntities().stream()
+                .map(Country::getPopulation)
+                .max(Comparator.naturalOrder())
+                .ifPresent(System.out::println);
+    }
     
     
     public static void misc() {
