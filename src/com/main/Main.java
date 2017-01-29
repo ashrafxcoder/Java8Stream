@@ -49,9 +49,17 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         //pythagoreanTriplet();
-        Stream.iterate(0, n -> n + 2)
-        .limit(10)
-        .forEach(System.out::println);
+//        Stream.iterate(0, n -> n + 2)
+//                //.limit(10)
+//                .forEach(System.out::println);
+        fibonacci();
+    }
+
+    public static void fibonacci() {
+        Stream.iterate(new int[]{0, 1},
+                t -> new int[]{t[1], t[0] + t[1]})
+                .limit(20)
+                .forEach(t -> System.out.println("(" + t[0] + "," + t[1] + ")"));
     }
 
     public static void pythagoreanTriplet() {
@@ -74,7 +82,7 @@ public class Main {
         countries.findCountryEntities().stream()
                 .reduce((a, b) -> a.getPopulation() > b.getPopulation() ? a : b)
                 .ifPresent(System.out::println);
-                //.forEach(c -> System.out.println(c.getName()));
+        //.forEach(c -> System.out.println(c.getName()));
         //.map(Country::getPopulation)
         //.reduce(Integer::max)
         //.max(Comparator.naturalOrder())
@@ -232,7 +240,7 @@ public class Main {
     /**
      * Given a list [1, 2, 3] and a list [3, 4] you should return [(1, 3), (1,
      * 4), (2, 3), (2, 4), (3, 3), (3, 4)]
-    *
+     *
      */
     public static void makePairs() {
 
