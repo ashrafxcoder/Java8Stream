@@ -55,6 +55,12 @@ public class Main {
         fibonacci();
     }
 
+    public static void random() {
+        Stream.generate(Math::random)
+                .limit(5)
+                .forEach(System.out::println);
+    }
+
     public static void fibonacci() {
         Stream.iterate(new int[]{0, 1},
                 t -> new int[]{t[1], t[0] + t[1]})
