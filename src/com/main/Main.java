@@ -29,6 +29,7 @@ import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+import static java.util.stream.Collectors.toList;
 import java.util.stream.Stream;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -50,11 +51,13 @@ public class Main {
         RollADie();
     }
 
+    
+    
     public static void misc() {
         Comparator<Integer> comp = Integer::compare;
-        
+
         SecurityManager manager;
-        
+
         CityJpaController city = new CityJpaController(emf);
 
         List<City> cities = city.findCityEntities();
@@ -71,9 +74,9 @@ public class Main {
                 .stream()
                 .filter(c -> c.getCountryCode().contains("PAK"))
                 .collect(Collectors.groupingBy(
-                        City::getCountryCode,
-                        TreeMap::new, Collectors.toList()
-                ));
+                                City::getCountryCode,
+                                TreeMap::new, Collectors.toList()
+                        ));
         map.forEach((s, l) -> {
             System.out.printf("%s has %d citie(s)%n", s, l.size());
             l.forEach(c -> System.out.println(c.getName() + " " + c.getDistrict()));
@@ -185,17 +188,31 @@ public class Main {
                 });
 
     }
-    
-    
-    public static void RollADie(){
+
+    public static void RollADie() {
         SecureRandom random = new SecureRandom();
         System.out.printf("%-6s%s%n", "Face", "Frequency");
-        random.ints(6_000_000, 1,7)
-              .boxed()
-              .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
-              .forEach((face, frequency) -> 
-              {
-                  System.out.printf("%-6d%d%n", face, frequency);
-              });
+        random.ints(6_000_000, 1, 7)
+                .boxed()
+                .collect(Collectors.groupingBy(Function.identity(), Collectors.counting()))
+                .forEach((face, frequency) -> {
+                    System.out.printf("%-6d%d%n", face, frequency);
+                });
+    }
+
+    /**
+    *Given a list [1, 2, 3] and a list [3, 4] you should return 
+    *    [(1, 3), (1, 4), (2, 3), (2, 4), (3, 3), (3, 4)]
+    **/
+    public static void makePairs() {
+        
+        List<Integer> numbers1 = Arrays.asList(1, 2, 3);
+        List<Integer> numbers2 = Arrays.asList(3, 4);
+        List<int[]> pairs
+                = numbers1.stream()
+                .flatMap(i -> numbers2.stream()
+                        .map(j -> new int[]{i, j})
+                )
+                .collect(toList());
     }
 }
